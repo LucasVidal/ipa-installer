@@ -8,7 +8,7 @@ class App < Sinatra::Base
     set :ipa_url_prefix, "https://dl.dropboxusercontent.com/u/22381470/releases-redo/"
 
     #The local folder where the ipas are located
-    set :local_folder, "~/Dropbox/Public/releases-redo" 
+    set :local_folder, "/Users/lucasvidal/Dropbox/Public/releases-redo" 
 
     #plist metadata
     set :bundle_id, "com.restorando.iphone"
