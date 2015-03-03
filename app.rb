@@ -27,7 +27,9 @@ class App < Sinatra::Base
   end
 
   def find_files 
-    files = Dir["#{settings.local_folder}/*.ipa"].each.map { 
+    files = Dir["#{settings.local_folder}/*.ipa"]
+    .sort_by { |x| File.mtime(x) }.reverse
+    .each.map { 
       |f| item_for(File.basename(f, ".ipa")) #return only filenames without extension
     } 
   end
