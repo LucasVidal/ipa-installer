@@ -9,7 +9,9 @@ li {
   margin-bottom: 10px;
   margin-right: 30px;
 }
-
+.action {
+  font-size: 15px;
+}
 @media only screen and (min-device-width : 375px) and (max-device-width : 667px) {
   li {
     font-size: 50px;

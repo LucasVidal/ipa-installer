@@ -1,4 +1,11 @@
 %ul
   - @files.each do |f|
     %li
-      %a{:href=>"#{f[:link]}"} #{f[:filename]}
+      %p
+        %a{:href=>"#{f.link}"} #{f.filename}
+        - if f.notes
+          %p #{f.notes}
+          %a.action{:href=>"/build/#{f.filename}/note"} Change
+        - else
+          %p
+          %a.action{:href=>"/build/#{f.filename}/note"} Add notes

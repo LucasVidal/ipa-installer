@@ -1,9 +1,13 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
+require './build.rb'
+
+DB = Sequel.sqlite('ipa-installer-database.sqlite3')
 
 class App < Sinatra::Base
   register Sinatra::Reloader
-  
+  also_reload './build.rb'
+
   configure do
     #The public addres where the devices will be downloading the ipas. 
     #Must have ssl enabled
@@ -22,6 +26,21 @@ class App < Sinatra::Base
   	haml :'index', layout: :application
   end
 
+  get "/build/:filename/note" do 
+    @build = Build.new(params[:filename], base_url)
+    haml :'build', layout: :application
+  end
+
+  post "/build/:filename/note" do 
+    dataset = DB.from(:builds).where(:build => params[:filename])
+    if dataset.empty?
+      dataset.insert({:build => params[:filename], :notes => params[:notes]})
+    else
+      dataset.update(:notes => params[:notes])
+    end
+    redirect "/"
+  end
+
   get "/plist/:name" do
     @destination = "#{settings.ipa_url_prefix}#{params[:name]}.ipa"
     @app_name = settings.app_name + " #{params[:name]}"
@@ -32,16 +51,8 @@ class App < Sinatra::Base
     files = Dir["#{settings.local_folder}/*.ipa"]
     .sort_by { |x| File.mtime(x) }.reverse
     .each.map { 
-      |f| item_for(File.basename(f, ".ipa")) #return only filenames without extension
+      |f| Build.new(File.basename(f, ".ipa"), base_url) #return only filenames without extension
     } 
-  end
-
-  def item_for(f) 
-    plist_base_url = "#{base_url}/plist/" #this links will answer to plist requests
-    hash = {}
-  	hash[:filename] = f
-  	hash[:link] = "itms-services://?action=download-manifest&url=#{plist_base_url}#{f}"
-    hash
   end
 
   def base_url

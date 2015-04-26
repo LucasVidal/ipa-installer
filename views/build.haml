@@ -1,0 +1,10 @@
+%form{ :action => "", :method => "post"}
+  %fieldset
+    %ol
+      %li
+        %label{:for => "filename"} Filename: #{@build.filename}
+        %input{:type => "hidden", :name => "filename", :class => "text", :value => @build.filename}
+      %li
+        %label{:for => "notes"} Build Notes: 
+        %textarea{:name => "notes"} #{@build.notes}
+    %input{:type => "submit", :value => "Done", :class => "button"}
