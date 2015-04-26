@@ -1,14 +1,16 @@
 require 'sinatra/base'
+require 'sinatra/reloader'
 
 class App < Sinatra::Base
-
+  register Sinatra::Reloader
+  
   configure do
     #The public addres where the devices will be downloading the ipas. 
     #Must have ssl enabled
     set :ipa_url_prefix, "https://dl.dropboxusercontent.com/u/22381470/releases/"
 
     #The local folder where the ipas are located
-    set :local_folder, "/Users/lucasvidal/Dropbox/Public/releases" 
+    set :local_folder, "/Users/lucas/Dropbox/Public/releases" 
 
     #plist metadata
     set :bundle_id, "com.restorando.iphone"

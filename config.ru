@@ -1,6 +1,5 @@
 require './app'
 
-
 map '/' do
-	run App
+  	run App
 end
