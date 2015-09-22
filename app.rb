@@ -17,7 +17,7 @@ class App < Sinatra::Base
     set :local_folder, "/Users/devsrestorando/Dropbox/builds"
 
     #plist metadata
-    set :bundle_id, "com.restorando.iphone"
+    set :bundle_id, "com.restorando.redo-iphone"
     set :app_name, "Redo iOS beta"
   end
 
